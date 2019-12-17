@@ -214,8 +214,6 @@ leave_send_command:
 #include "unix-socket.h"
 #include "sigchain.h"
 
-static const char *fsmonitor_listener_path;
-
 static int is_active(const char *path)
 {
 	struct stat st;
@@ -257,10 +255,17 @@ static int reply(void *reply_data, const char *response, size_t len)
 #define LISTEN_TIMEOUT 50000
 #define RESPONSE_TIMEOUT 1000
 
+static struct string_list listener_paths = STRING_LIST_INIT_DUP;
+static int atexit_registered;
+
 static void unlink_listener_path(void)
 {
-	if (fsmonitor_listener_path)
-		unlink(fsmonitor_listener_path);
+	int i;
+
+	for (i = 0; i < listener_paths.nr; i++)
+		unlink(listener_paths.items[i].string);
+
+	string_list_clear(&listener_paths, 0);
 }
 
 int ipc_listen_for_commands(struct ipc_command_listener *listener)
@@ -275,8 +280,11 @@ int ipc_listen_for_commands(struct ipc_command_listener *listener)
 		return error_errno(_("could not set up socket for %s"),
 				   listener->path);
 
-	fsmonitor_listener_path = listener->path;
-	atexit(unlink_listener_path);
+	if (!atexit_registered) {
+		atexit(unlink_listener_path);
+		atexit_registered = 1;
+	}
+	string_list_append(&listener_paths, listener->path);
 
 	trace2_region_enter("simple-ipc", "listen", the_repository);
 	while (1) {
