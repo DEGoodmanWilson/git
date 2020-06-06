@@ -305,6 +305,7 @@ int ipc_listen_for_commands(struct ipc_command_listener *listener)
 				 * but that is better than a premature exit.
 				 */
 				continue;
+			trace2_region_leave("simple-ipc", "listen", the_repository);
 			return error_errno(_("poll() failed"));
 		} else if (result == 0)
 			/* timeout */
@@ -349,6 +350,7 @@ int ipc_listen_for_commands(struct ipc_command_listener *listener)
 	}
 
 	close(fd);
+	trace2_region_leave("simple-ipc", "listen", the_repository);
 	return ret == SIMPLE_IPC_QUIT ? 0 : ret;
 }
 
