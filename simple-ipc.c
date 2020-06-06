@@ -289,6 +289,7 @@ int ipc_listen_for_commands(struct ipc_command_listener *listener)
 	string_list_append(&listener_paths, listener->path);
 
 	trace2_region_enter("simple-ipc", "listen", the_repository);
+	listener->active = 1;
 	while (listener->active) {
 		struct pollfd pollfd;
 		int result, client_fd;
@@ -336,6 +337,7 @@ int ipc_listen_for_commands(struct ipc_command_listener *listener)
 						      &client_fd);
 			packet_flush_gently(client_fd);
 			if (ret == SIMPLE_IPC_QUIT) {
+				listener->active = 0;
 				close(client_fd);
 				strbuf_release(&buf);
 				break;
