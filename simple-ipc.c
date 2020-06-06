@@ -289,7 +289,7 @@ int ipc_listen_for_commands(struct ipc_command_listener *listener)
 	string_list_append(&listener_paths, listener->path);
 
 	trace2_region_enter("simple-ipc", "listen", the_repository);
-	while (1) {
+	while (listener->active) {
 		struct pollfd pollfd;
 		int result, client_fd;
 		struct strbuf buf = STRBUF_INIT;
