@@ -197,8 +197,6 @@ int ipc_send_command(const char *path, const char *message, struct strbuf *answe
 	}
 
 leave_send_command:
-	trace2_region_leave("simple-ipc", "send", the_repository);
-
 	if (fd < 0)
 		CloseHandle(pipe);
 	else
