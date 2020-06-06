@@ -138,6 +138,7 @@ int ipc_listen_for_commands(struct ipc_command_listener *server)
 
 	CloseHandle(data.pipe);
 
+	trace2_region_leave("simple-ipc", "listen", the_repository);
 	return 0;
 }
 
