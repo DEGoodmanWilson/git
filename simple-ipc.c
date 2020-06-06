@@ -117,6 +117,7 @@ int ipc_listen_for_commands(struct ipc_command_listener *server)
 				server->path);
 
 	server->active = 1;
+	trace2_region_enter("simple-ipc", "listen", the_repository);
 	while (server->active) {
 		int ret;
 
