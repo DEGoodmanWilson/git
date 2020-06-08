@@ -6,7 +6,7 @@
 test_description='Test git pack-redundant
 
 In order to test git-pack-redundant, we will create a number of objects and
-packs in the repository `master.git`. The relationship between packs (P1-P8)
+packs in the repository `main.git`. The relationship between packs (P1-P8)
 and objects (T, A-R) is showed in the following chart. Objects of a pack will
 be marked with letter x, while objects of redundant packs will be marked with
 exclamation point, and redundant pack itself will be marked with asterisk.
@@ -25,7 +25,7 @@ exclamation point, and redundant pack itself will be marked with asterisk.
     ALL | x x x x x x x x x x x x x x x x x x x
 
 Another repository `shared.git` has unique objects (X-Z), while other objects
-(marked with letter s) are shared through alt-odb (of `master.git`). The
+(marked with letter s) are shared through alt-odb (of `main.git`). The
 relationship between packs and objects is as follows:
 
 	| T A B C D E F G H I J K L M N O P Q R   X Y Z
@@ -36,7 +36,7 @@ relationship between packs and objects is as follows:
 
 . ./test-lib.sh
 
-master_repo=master.git
+master_repo=main.git
 shared_repo=shared.git
 
 # Create commits in <repo> and assign each commit's oid to shell variables
@@ -69,7 +69,7 @@ create_commits_in () {
 		shift ||
 		return 1
 	done &&
-	git -C "$repo" update-ref refs/heads/master $oid
+	git -C "$repo" update-ref refs/heads/main $oid
 }
 
 # Create pack in <repo> and assign pack id to variable given in the 2nd argument
@@ -107,7 +107,7 @@ format_packfiles () {
 	sort
 }
 
-test_expect_success 'setup master repo' '
+test_expect_success 'setup main repo' '
 	git init --bare "$master_repo" &&
 	create_commits_in "$master_repo" A B C D E F G H I J K L M N O P Q R
 '
@@ -124,7 +124,7 @@ test_expect_success 'setup master repo' '
 #     ALL | x x x x x x x x x x x x x x         x
 #
 #############################################################################
-test_expect_success 'master: no redundant for pack 1, 2, 3' '
+test_expect_success 'main: no redundant for pack 1, 2, 3' '
 	create_pack_in "$master_repo" P1 <<-EOF &&
 		$T
 		$A
@@ -173,7 +173,7 @@ test_expect_success 'master: no redundant for pack 1, 2, 3' '
 #     ALL | x x x x x x x x x x x x x x x x x   x
 #
 #############################################################################
-test_expect_success 'master: one of pack-2/pack-3 is redundant' '
+test_expect_success 'main: one of pack-2/pack-3 is redundant' '
 	create_pack_in "$master_repo" P4 <<-EOF &&
 		$J
 		$K
@@ -214,7 +214,7 @@ test_expect_success 'master: one of pack-2/pack-3 is redundant' '
 #     ALL | x x x x x x x x x x x x x x x x x x x
 #
 #############################################################################
-test_expect_success 'master: pack 2, 4, and 6 are redundant' '
+test_expect_success 'main: pack 2, 4, and 6 are redundant' '
 	create_pack_in "$master_repo" P6 <<-EOF &&
 		$N
 		$O
@@ -254,7 +254,7 @@ test_expect_success 'master: pack 2, 4, and 6 are redundant' '
 #     ALL | x x x x x x x x x x x x x x x x x x x
 #
 #############################################################################
-test_expect_success 'master: pack-8 (subset of pack-1) is also redundant' '
+test_expect_success 'main: pack-8 (subset of pack-1) is also redundant' '
 	create_pack_in "$master_repo" P8 <<-EOF &&
 		$A
 		EOF
@@ -272,7 +272,7 @@ test_expect_success 'master: pack-8 (subset of pack-1) is also redundant' '
 	)
 '
 
-test_expect_success 'master: clean loose objects' '
+test_expect_success 'main: clean loose objects' '
 	(
 		cd "$master_repo" &&
 		git prune-packed &&
@@ -281,7 +281,7 @@ test_expect_success 'master: clean loose objects' '
 	)
 '
 
-test_expect_success 'master: remove redundant packs and pass fsck' '
+test_expect_success 'main: remove redundant packs and pass fsck' '
 	(
 		cd "$master_repo" &&
 		git pack-redundant --all | xargs rm &&
@@ -292,7 +292,7 @@ test_expect_success 'master: remove redundant packs and pass fsck' '
 '
 
 # The following test cases will execute inside `shared.git`, instead of
-# inside `master.git`.
+# inside `main.git`.
 test_expect_success 'setup shared.git' '
 	git clone --mirror "$master_repo" "$shared_repo" &&
 	(
@@ -312,7 +312,7 @@ test_expect_success 'shared: all packs are redundant, but no output without --al
 #############################################################################
 # Chart of packs and objects for this test case
 #
-#     ================ master.git ===============
+#     ================ main.git ===============
 #         | T A B C D E F G H I J K L M N O P Q R  <----------+
 #     ----+--------------------------------------             |
 #     P1  | x x x x x x x                       x             |
@@ -394,7 +394,7 @@ test_expect_success 'shared: no redundant without --alt-odb' '
 #############################################################################
 # Chart of packs and objects for this test case
 #
-#     ================ master.git ===============
+#     ================ main.git ===============
 #         | T A B C D E F G H I J K L M N O P Q R  <----------------+
 #     ----+--------------------------------------                   |
 #     P1  | x x x x x x x                       x                   |
@@ -426,7 +426,7 @@ test_expect_success 'shared: one pack is redundant with --alt-odb' '
 #############################################################################
 # Chart of packs and objects for this test case
 #
-#     ================ master.git ===============
+#     ================ main.git ===============
 #         | T A B C D E F G H I J K L M N O P Q R  <----------------+
 #     ----+--------------------------------------                   |
 #     P1  | x x x x x x x                       x                   |

@@ -4,7 +4,7 @@ test_description='test refspec written by clone-command'
 . ./test-lib.sh
 
 test_expect_success 'setup' '
-	# Make two branches, "master" and "side"
+	# Make two branches, "main" and "side"
 	echo one >file &&
 	git add file &&
 	git commit -m one &&
@@ -16,7 +16,7 @@ test_expect_success 'setup' '
 	git checkout -b side &&
 	echo four >file &&
 	git commit -a -m four &&
-	git checkout master &&
+	git checkout main &&
 	git tag five &&
 
 	# default clone
@@ -25,10 +25,10 @@ test_expect_success 'setup' '
 	# default clone --no-tags
 	git clone --no-tags . dir_all_no_tags &&
 
-	# default --single that follows HEAD=master
+	# main --single that follows HEAD=main
 	git clone --single-branch . dir_master &&
 
-	# default --single that follows HEAD=master with no tags
+	# main --single that follows HEAD=main with no tags
 	git clone --single-branch --no-tags . dir_master_no_tags &&
 
 	# default --single that follows HEAD=side
@@ -36,7 +36,7 @@ test_expect_success 'setup' '
 	git clone --single-branch . dir_side &&
 
 	# explicit --single that follows side
-	git checkout master &&
+	git checkout main &&
 	git clone --single-branch --branch side . dir_side2 &&
 
 	# default --single with --mirror
@@ -55,11 +55,11 @@ test_expect_success 'setup' '
 	# explicit --single with tag and --no-tags
 	git clone --single-branch --no-tags --branch two . dir_tag_no_tags &&
 
-	# advance both "master" and "side" branches
+	# advance both "main" and "side" branches
 	git checkout side &&
 	echo five >file &&
 	git commit -a -m five &&
-	git checkout master &&
+	git checkout main &&
 	echo six >file &&
 	git commit -a -m six &&
 
@@ -75,7 +75,7 @@ test_expect_success 'by default all branches will be kept updated' '
 		sed -e "/HEAD$/d" \
 		    -e "s|/remotes/origin/|/heads/|" refs >../actual
 	) &&
-	# follow both master and side
+	# follow both main and side
 	git for-each-ref refs/heads >expect &&
 	test_cmp expect actual
 '
@@ -100,7 +100,7 @@ test_expect_success 'clone with --no-tags' '
 	test_must_be_empty actual
 '
 
-test_expect_success '--single-branch while HEAD pointing at master' '
+test_expect_success '--single-branch while HEAD pointing at main' '
 	(
 		cd dir_master &&
 		git fetch --force &&
@@ -108,8 +108,8 @@ test_expect_success '--single-branch while HEAD pointing at master' '
 		sed -e "/HEAD$/d" \
 		    -e "s|/remotes/origin/|/heads/|" refs >../actual
 	) &&
-	# only follow master
-	git for-each-ref refs/heads/master >expect &&
+	# only follow main
+	git for-each-ref refs/heads/main >expect &&
 	# get & check latest tags
 	test_cmp expect actual &&
 	(
@@ -122,7 +122,7 @@ test_expect_success '--single-branch while HEAD pointing at master' '
 	test_line_count = 2 actual
 '
 
-test_expect_success '--single-branch while HEAD pointing at master and --no-tags' '
+test_expect_success '--single-branch while HEAD pointing at main and --no-tags' '
 	(
 		cd dir_master_no_tags &&
 		git fetch &&
@@ -130,8 +130,8 @@ test_expect_success '--single-branch while HEAD pointing at master and --no-tags
 		sed -e "/HEAD$/d" \
 		    -e "s|/remotes/origin/|/heads/|" refs >../actual
 	) &&
-	# only follow master
-	git for-each-ref refs/heads/master >expect &&
+	# only follow main
+	git for-each-ref refs/heads/main >expect &&
 	test_cmp expect actual &&
 	# get tags (noop)
 	(

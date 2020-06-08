@@ -26,9 +26,9 @@ test_expect_success 'stream omits path names' '
 	! grep xyzzy stream
 '
 
-test_expect_success 'stream translates master to ref0' '
+test_expect_success 'stream translates the main branch to ref0' '
 	grep refs/heads/ref0 stream &&
-	! grep master stream
+	! grep main stream
 '
 
 test_expect_success 'respects configured main branch' '
@@ -71,7 +71,7 @@ test_expect_success 'repo has original shape and timestamps' '
 	shape () {
 		git log --format="%m %ct" --left-right --boundary "$@"
 	} &&
-	(cd .. && shape master...other) >expect &&
+	(cd .. && shape main...other) >expect &&
 	shape ref0...$other_branch >actual &&
 	test_cmp expect actual
 '

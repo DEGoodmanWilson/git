@@ -144,7 +144,7 @@ create_lib_submodule_repo () {
 		git checkout -b valid_sub1 &&
 		git revert HEAD &&
 
-		git checkout master
+		git checkout main
 	)
 }
 

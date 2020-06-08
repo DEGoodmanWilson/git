@@ -15,7 +15,7 @@ test_expect_success 'setup' '
 test_expect_success 'clone -o' '
 
 	git clone -o foo parent clone-o &&
-	(cd clone-o && git rev-parse --verify refs/remotes/foo/master)
+	(cd clone-o && git rev-parse --verify refs/remotes/foo/main)
 
 '
 

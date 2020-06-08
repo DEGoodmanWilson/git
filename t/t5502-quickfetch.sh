@@ -110,12 +110,12 @@ test_expect_success 'quickfetch should not copy from alternate' '
 	) ) &&
 	origin_master=$( (
 		cd quickclone &&
-		git rev-parse origin/master
+		git rev-parse origin/main
 	) ) &&
 	echo "loose objects: $obj_cnt, packfiles: $pck_cnt" &&
 	test $obj_cnt -eq 0 &&
 	test $pck_cnt -eq 0 &&
-	test z$origin_master = z$(git rev-parse master)
+	test z$origin_master = z$(git rev-parse main)
 
 '
 

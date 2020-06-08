@@ -17,8 +17,8 @@ test_expect_success setup '
 	test_commit added_in_topic each.txt in_topic
 '
 
-test_expect_success 'git merge master' '
-    test_must_fail git merge master
+test_expect_success 'git merge main' '
+    test_must_fail git merge main
 '
 
 clean_branchnames () {
@@ -61,7 +61,7 @@ test_expect_success 'force checkout a conflict file creates stage zero entry' '
 		git checkout topic &&
 		echo c >a &&
 		C_OBJ=$(git hash-object a) &&
-		git checkout -m master &&
+		git checkout -m main &&
 		test_cmp_rev :1:a $A_OBJ &&
 		test_cmp_rev :2:a $B_OBJ &&
 		test_cmp_rev :3:a $C_OBJ &&

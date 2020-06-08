@@ -29,7 +29,7 @@ check_output () {
 
 # c(o/foo) d(o/bar)
 #        \ /
-#         b   e(baz)  f(master)
+#         b   e(baz)  f(main)
 #          \__  |  __/
 #             \ | /
 #               a
@@ -43,7 +43,7 @@ test_expect_success 'setup repository' '
 	test_commit d &&
 	git checkout -b baz a &&
 	test_commit e &&
-	git checkout master &&
+	git checkout main &&
 	test_commit f
 '
 
@@ -80,7 +80,7 @@ test_expect_success 'invalid want-ref line' '
 test_expect_success 'basic want-ref' '
 	oid=$(git rev-parse f) &&
 	cat >expected_refs <<-EOF &&
-	$oid refs/heads/master
+	$oid refs/heads/main
 	EOF
 	git rev-parse f >expected_commits &&
 
@@ -89,7 +89,7 @@ test_expect_success 'basic want-ref' '
 	command=fetch
 	0001
 	no-progress
-	want-ref refs/heads/master
+	want-ref refs/heads/main
 	have $oid
 	done
 	0000
@@ -127,7 +127,7 @@ test_expect_success 'multiple want-ref lines' '
 test_expect_success 'mix want and want-ref' '
 	oid=$(git rev-parse f) &&
 	cat >expected_refs <<-EOF &&
-	$oid refs/heads/master
+	$oid refs/heads/main
 	EOF
 	git rev-parse e f >expected_commits &&
 
@@ -135,7 +135,7 @@ test_expect_success 'mix want and want-ref' '
 	command=fetch
 	0001
 	no-progress
-	want-ref refs/heads/master
+	want-ref refs/heads/main
 	want $(git rev-parse e)
 	have $(git rev-parse a)
 	done
@@ -174,7 +174,7 @@ LOCAL_PRISTINE="$(pwd)/local_pristine"
 # $REPO
 # c(o/foo) d(o/bar)
 #        \ /
-#         b   e(baz)  f(master)
+#         b   e(baz)  f(main)
 #          \__  |  __/
 #             \ | /
 #               a
@@ -185,7 +185,7 @@ LOCAL_PRISTINE="$(pwd)/local_pristine"
 #		.
 #		.
 #		|
-#		a(master)
+#		a(main)
 test_expect_success 'setup repos for fetching with ref-in-want tests' '
 	(
 		git init "$REPO" &&
@@ -201,7 +201,7 @@ test_expect_success 'setup repos for fetching with ref-in-want tests' '
 		test_commit_bulk --id=s 33 &&
 
 		# Add novel commits to upstream
-		git checkout master &&
+		git checkout main &&
 		cd "$REPO" &&
 		git checkout -b o/foo &&
 		test_commit b &&
@@ -210,7 +210,7 @@ test_expect_success 'setup repos for fetching with ref-in-want tests' '
 		test_commit d &&
 		git checkout -b baz a &&
 		test_commit e &&
-		git checkout master &&
+		git checkout main &&
 		test_commit f
 	) &&
 	git -C "$REPO" config uploadpack.allowRefInWant true &&
@@ -237,12 +237,12 @@ test_expect_success 'fetching multiple refs' '
 
 	rm -rf local &&
 	cp -r "$LOCAL_PRISTINE" local &&
-	GIT_TRACE_PACKET="$(pwd)/log" git -C local fetch origin master baz &&
+	GIT_TRACE_PACKET="$(pwd)/log" git -C local fetch origin main baz &&
 
-	git -C "$REPO" rev-parse "master" "baz" >expected &&
-	git -C local rev-parse refs/remotes/origin/master refs/remotes/origin/baz >actual &&
+	git -C "$REPO" rev-parse "main" "baz" >expected &&
+	git -C local rev-parse refs/remotes/origin/main refs/remotes/origin/baz >actual &&
 	test_cmp expected actual &&
-	grep "want-ref refs/heads/master" log &&
+	grep "want-ref refs/heads/main" log &&
 	grep "want-ref refs/heads/baz" log
 '
 
@@ -253,13 +253,13 @@ test_expect_success 'fetching ref and exact OID' '
 	cp -r "$LOCAL_PRISTINE" local &&
 	oid=$(git -C "$REPO" rev-parse b) &&
 	GIT_TRACE_PACKET="$(pwd)/log" git -C local fetch origin \
-		master "$oid":refs/heads/actual &&
+		main "$oid":refs/heads/actual &&
 
-	git -C "$REPO" rev-parse "master" "b" >expected &&
-	git -C local rev-parse refs/remotes/origin/master refs/heads/actual >actual &&
+	git -C "$REPO" rev-parse "main" "b" >expected &&
+	git -C local rev-parse refs/remotes/origin/main refs/heads/actual >actual &&
 	test_cmp expected actual &&
 	grep "want $oid" log &&
-	grep "want-ref refs/heads/master" log
+	grep "want-ref refs/heads/main" log
 '
 
 test_expect_success 'fetching with wildcard that does not match any refs' '
@@ -308,7 +308,7 @@ test_expect_success 'setup repos for change-while-negotiating test' '
 		test_commit_bulk --id=s 33 &&
 
 		# Add novel commits to upstream
-		git checkout master &&
+		git checkout main &&
 		cd "$REPO" &&
 		test_commit m2 &&
 		test_commit m3 &&
@@ -334,7 +334,7 @@ test_expect_success 'server is initially ahead - no ref in want' '
 	git -C "$REPO" config uploadpack.allowRefInWant false &&
 	rm -rf local &&
 	cp -r "$LOCAL_PRISTINE" local &&
-	inconsistency master $(test_oid numeric) &&
+	inconsistency main $(test_oid numeric) &&
 	test_must_fail git -C local fetch 2>err &&
 	test_i18ngrep "fatal: remote error: upload-pack: not our ref" err
 '
@@ -343,11 +343,11 @@ test_expect_success 'server is initially ahead - ref in want' '
 	git -C "$REPO" config uploadpack.allowRefInWant true &&
 	rm -rf local &&
 	cp -r "$LOCAL_PRISTINE" local &&
-	inconsistency master $(test_oid numeric) &&
+	inconsistency main $(test_oid numeric) &&
 	git -C local fetch &&
 
-	git -C "$REPO" rev-parse --verify master >expected &&
-	git -C local rev-parse --verify refs/remotes/origin/master >actual &&
+	git -C "$REPO" rev-parse --verify main >expected &&
+	git -C local rev-parse --verify refs/remotes/origin/main >actual &&
 	test_cmp expected actual
 '
 
@@ -355,11 +355,11 @@ test_expect_success 'server is initially behind - no ref in want' '
 	git -C "$REPO" config uploadpack.allowRefInWant false &&
 	rm -rf local &&
 	cp -r "$LOCAL_PRISTINE" local &&
-	inconsistency master "master^" &&
+	inconsistency main "main^" &&
 	git -C local fetch &&
 
-	git -C "$REPO" rev-parse --verify "master^" >expected &&
-	git -C local rev-parse --verify refs/remotes/origin/master >actual &&
+	git -C "$REPO" rev-parse --verify "main^" >expected &&
+	git -C local rev-parse --verify refs/remotes/origin/main >actual &&
 	test_cmp expected actual
 '
 
@@ -367,11 +367,11 @@ test_expect_success 'server is initially behind - ref in want' '
 	git -C "$REPO" config uploadpack.allowRefInWant true &&
 	rm -rf local &&
 	cp -r "$LOCAL_PRISTINE" local &&
-	inconsistency master "master^" &&
+	inconsistency main "main^" &&
 	git -C local fetch &&
 
-	git -C "$REPO" rev-parse --verify "master" >expected &&
-	git -C local rev-parse --verify refs/remotes/origin/master >actual &&
+	git -C "$REPO" rev-parse --verify "main" >expected &&
+	git -C local rev-parse --verify refs/remotes/origin/main >actual &&
 	test_cmp expected actual
 '
 
@@ -379,10 +379,10 @@ test_expect_success 'server loses a ref - ref in want' '
 	git -C "$REPO" config uploadpack.allowRefInWant true &&
 	rm -rf local &&
 	cp -r "$LOCAL_PRISTINE" local &&
-	echo "s/master/raster/" >"$HTTPD_ROOT_PATH/one-time-perl" &&
+	echo "s/main/none/" >"$HTTPD_ROOT_PATH/one-time-perl" &&
 	test_must_fail git -C local fetch 2>err &&
 
-	test_i18ngrep "fatal: remote error: unknown ref refs/heads/raster" err
+	test_i18ngrep "fatal: remote error: unknown ref refs/heads/none" err
 '
 
 # DO NOT add non-httpd-specific tests here, because the last part of this
