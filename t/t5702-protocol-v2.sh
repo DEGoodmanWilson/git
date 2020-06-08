@@ -394,6 +394,7 @@ test_expect_success 'even with handcrafted request, filter does not work if not 
 	# Custom request that tries to filter even though it is not advertised.
 	test-tool pkt-line pack >in <<-EOF &&
 	command=fetch
+	object-format=$(test_oid algo)
 	0001
 	want $(git -C server rev-parse main)
 	filter blob:none
