@@ -36,10 +36,10 @@ test_expect_success 'setup branch sub' '
 '
 
 test_expect_success 'setup branch main' '
-	git checkout -b main master &&
+	git checkout -b primary master &&
 	git merge -s ours --no-commit --allow-unrelated-histories sub &&
 	git read-tree --prefix=dir/ -u sub &&
-	git commit -m "initial merge of sub into main" &&
+	git commit -m "initial merge of sub into primary" &&
 	test_path_is_file dir/foo.t &&
 	test_path_is_file hello
 '
@@ -49,9 +49,9 @@ test_expect_success 'update branch sub' '
 	test_commit bar
 '
 
-test_expect_success 'update branch main' '
-	git checkout main &&
-	git merge -s subtree sub -m "second merge of sub into main" &&
+test_expect_success 'update branch primary' '
+	git checkout primary &&
+	git merge -s subtree sub -m "second merge of sub into primary" &&
 	test_path_is_file dir/bar.t &&
 	test_path_is_file dir/foo.t &&
 	test_path_is_file hello
