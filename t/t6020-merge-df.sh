@@ -124,7 +124,7 @@ test_expect_success 'Simple merge in repo with interesting pathnames' '
 		git add . &&
 		git commit -m initial &&
 
-		git branch main &&
+		git branch primary &&
 		git branch other &&
 
 		git checkout other &&
@@ -132,10 +132,10 @@ test_expect_success 'Simple merge in repo with interesting pathnames' '
 		git add -u &&
 		git commit -m other &&
 
-		git checkout main &&
-		echo main >foo/bar/baz &&
+		git checkout primary &&
+		echo primary >foo/bar/baz &&
 		git add -u &&
-		git commit -m main &&
+		git commit -m primary &&
 
 		git merge other &&
 		git ls-files -s >out &&
