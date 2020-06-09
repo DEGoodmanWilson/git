@@ -158,10 +158,14 @@ int dwim_log(const char *str, int len, struct object_id *oid, char **ref);
  * Retrieves the name of the main (or: primary) branch of the given
  * repository.
  *
+ * To obtain the default for newly-initialized repositories, pass the flag
+ * `MAIN_BRANCH_FOR_INIT`.
+ *
  * The result is an allocated string. Unless the flags ask for a short name, it
  * will be prefixed with "refs/heads/".
  */
 #define MAIN_BRANCH_FULL_NAME (1<<0)
+#define MAIN_BRANCH_FOR_INIT   (1<<1)
 char *git_main_branch_name(int flags);
 char *repo_main_branch_name(struct repository *r, int flags);
 

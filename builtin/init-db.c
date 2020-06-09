@@ -266,10 +266,11 @@ static int create_default_files(const char *template_path,
 	reinit = (!access(path, R_OK)
 		  || readlink(path, junk, sizeof(junk)-1) != -1);
 	if (!reinit) {
-		char *ref;
+		char *ref, *fall_back = NULL;
 
 		if (!main_branch)
-			main_branch = "master";
+			main_branch = fall_back =
+				git_main_branch_name(MAIN_BRANCH_FOR_INIT);
 
 		ref = xstrfmt("refs/heads/%s", main_branch);
 		if (check_refname_format(ref, 0) < 0)
@@ -280,6 +281,7 @@ static int create_default_files(const char *template_path,
 		free(ref);
 
 		git_config_set("core.mainbranch", main_branch);
+		free(fall_back);
 	} else if (main_branch)
 		warning(_("re-init: ignoring --main-branch=%s"), main_branch);
 

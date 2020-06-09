@@ -563,8 +563,11 @@ void expand_ref_prefix(struct argv_array *prefixes, const char *prefix)
 char *repo_main_branch_name(struct repository *r, int flags)
 {
 	int full_name = flags & MAIN_BRANCH_FULL_NAME;
-	const char *config_key = "core.mainbranch";
-	const char *config_display_key = "core.mainBranch";
+	int for_init = flags & MAIN_BRANCH_FOR_INIT;
+	const char *config_key = for_init ?
+		 "init.defaultbranch" : "core.mainbranch";
+	const char *config_display_key = for_init ?
+		 "init.defaultBranch" : "core.mainBranch";
 	const char *fall_back = "master";
 	char *name = NULL, *ret;
 
