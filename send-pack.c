@@ -405,8 +405,12 @@ int send_pack(struct send_pack_args *args,
 	}
 
 	if (!remote_refs) {
+		char *branch_name = git_main_branch_name();
+
 		fprintf(stderr, "No refs in common and none specified; doing nothing.\n"
-			"Perhaps you should specify a branch such as 'master'.\n");
+			"Perhaps you should specify a branch such as '%s'.\n",
+			branch_name);
+		free(branch_name);
 		return 0;
 	}
 	if (args->atomic && !atomic_supported)
