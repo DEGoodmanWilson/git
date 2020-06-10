@@ -50,7 +50,16 @@ test_expect_success 'guesses main branch name correctly' '
 	git -C main-branch branch abc guess &&
 	git clone main-branch is-it &&
 	test guess = $(git -C is-it config core.mainBranch) &&
-	test refs/heads/guess = $(git -C is-it symbolic-ref HEAD)
+	test refs/heads/guess = $(git -C is-it symbolic-ref HEAD) &&
+
+	git -c init.defaultBranch=none init --bare no-head &&
+	git -C main-branch push ../no-head guess abc &&
+	git clone no-head is-it2 &&
+	test_must_fail git -C is-it2 symbolic-ref refs/remotes/origin/HEAD &&
+	git -C no-head update-ref --no-deref HEAD refs/heads/guess &&
+	git -c init.defaultBranch=guess clone no-head is-it3 &&
+	test refs/remotes/origin/guess = \
+		$(git -C is-it3 symbolic-ref refs/remotes/origin/HEAD)
 '
 
 test_done
