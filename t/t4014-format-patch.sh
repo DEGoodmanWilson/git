@@ -81,16 +81,16 @@ test_expect_success 'format-patch --ignore-if-in-upstream handles tags' '
 '
 
 test_expect_success "format-patch doesn't consider merge commits" '
-	git checkout -b slave master &&
+	git checkout -b employee master &&
 	echo "Another line" >>file &&
 	test_tick &&
-	git commit -am "Slave change #1" &&
+	git commit -am "Employee change #1" &&
 	echo "Yet another line" >>file &&
 	test_tick &&
-	git commit -am "Slave change #2" &&
+	git commit -am "Employee change #2" &&
 	git checkout -b merger master &&
 	test_tick &&
-	git merge --no-ff slave &&
+	git merge --no-ff employee &&
 	git format-patch -3 --stdout >patch &&
 	grep "^From " patch >from &&
 	test_line_count = 3 from
