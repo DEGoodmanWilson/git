@@ -234,10 +234,10 @@ test_expect_success 'git branch -M master master should work when master is chec
 	git branch -M master master
 '
 
-test_expect_success 'git branch -M master2 master2 should work when master is checked out' '
+test_expect_success 'git branch -M main2 main2 should work when master is checked out' '
 	git checkout master &&
-	git branch master2 &&
-	git branch -M master2 master2
+	git branch main2 &&
+	git branch -M main2 main2
 '
 
 test_expect_success 'git branch -v -d t should work' '
@@ -324,8 +324,8 @@ test_expect_success 'git branch --list -v with --abbrev' '
 test_expect_success 'git branch --column' '
 	COLUMNS=81 git branch --column=column >actual &&
 	cat >expected <<\EOF &&
-  a/b/c     bam       foo       l       * master    mb        o/o       q
-  abc       bar       j/k       m/m       master2   n         o/p       r
+  a/b/c    bam      foo      l        main2    mb       o/o      q
+  abc      bar      j/k      m/m    * master   n        o/p      r
 EOF
 	test_cmp expected actual
 '
@@ -345,8 +345,8 @@ test_expect_success 'git branch --column with an extremely long branch name' '
   j/k
   l
   m/m
+  main2
 * master
-  master2
   mb
   n
   o/o
@@ -365,8 +365,8 @@ test_expect_success 'git branch with column.*' '
 	git config --unset column.branch &&
 	git config --unset column.ui &&
 	cat >expected <<\EOF &&
-  a/b/c   bam   foo   l   * master    mb   o/o   q
-  abc     bar   j/k   m/m   master2   n    o/p   r
+  a/b/c   bam   foo   l     main2    mb   o/o   q
+  abc     bar   j/k   m/m * master   n    o/p   r
 EOF
 	test_cmp expected actual
 '
@@ -377,7 +377,7 @@ test_expect_success 'git branch --column -v should fail' '
 
 test_expect_success 'git branch -v with column.ui ignored' '
 	git config column.ui column &&
-	COLUMNS=80 git branch -v | cut -c -10 | sed "s/ *$//" >actual &&
+	COLUMNS=80 git branch -v | cut -c -9 | sed "s/ *$//" >actual &&
 	git config --unset column.ui &&
 	cat >expected <<\EOF &&
   a/b/c
@@ -388,8 +388,8 @@ test_expect_success 'git branch -v with column.ui ignored' '
   j/k
   l
   m/m
+  main2
 * master
-  master2
   mb
   n
   o/o
@@ -606,10 +606,10 @@ test_expect_success 'git branch -C master master should work when master is chec
 	git branch -C master master
 '
 
-test_expect_success 'git branch -C master5 master5 should work when master is checked out' '
+test_expect_success 'git branch -C main5 main5 should work when master is checked out' '
 	git checkout master &&
-	git branch master5 &&
-	git branch -C master5 master5
+	git branch main5 &&
+	git branch -C main5 main5
 '
 
 test_expect_success 'git branch -C ab cd should overwrite existing config for cd' '
@@ -720,11 +720,11 @@ test_expect_success 'deleting a self-referential symref' '
 '
 
 test_expect_success 'renaming a symref is not allowed' '
-	git symbolic-ref refs/heads/master2 refs/heads/master &&
-	test_must_fail git branch -m master2 master3 &&
-	git symbolic-ref refs/heads/master2 &&
+	git symbolic-ref refs/heads/main2 refs/heads/master &&
+	test_must_fail git branch -m main2 main3 &&
+	git symbolic-ref refs/heads/main2 &&
 	test_path_is_file .git/refs/heads/master &&
-	test_path_is_missing .git/refs/heads/master3
+	test_path_is_missing .git/refs/heads/main3
 '
 
 test_expect_success SYMLINKS 'git branch -m u v should fail when the reflog for u is a symlink' '
