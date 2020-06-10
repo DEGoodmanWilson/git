@@ -70,6 +70,13 @@ test_expect_success 'setup a submodule tree' '
 	)
 '
 
+test_expect_success 'update --remote uses configured default main branch' '
+	git clone super main-branch &&
+	test_must_fail git -C main-branch -c init.defaultBranch=hello \
+		submodule update --init --remote submodule 2>err &&
+	test_i18ngrep origin/hello err
+'
+
 test_expect_success 'submodule update detaching the HEAD ' '
 	(cd super/submodule &&
 	 git reset --hard HEAD~1
