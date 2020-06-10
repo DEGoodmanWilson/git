@@ -718,6 +718,7 @@ static void update_head(const struct ref *our, const struct ref *remote,
 		/* Local default branch link */
 		if (create_symref("HEAD", our->name, NULL) < 0)
 			die(_("unable to update HEAD"));
+		git_config_set("core.mainbranch", head);
 		if (!option_bare) {
 			update_ref(msg, "HEAD", &our->old_oid, NULL, 0,
 				   UPDATE_REFS_DIE_ON_ERR);
@@ -1264,9 +1265,18 @@ int cmd_clone(int argc, const char **argv, const char *prefix)
 		remote_head_points_at = NULL;
 		remote_head = NULL;
 		option_no_checkout = 1;
-		if (!option_bare)
-			install_branch_config(0, "master", option_origin,
-					      "refs/heads/master");
+		if (!option_bare) {
+			char *main_branch =
+				git_main_branch_name(MAIN_BRANCH_FULL_NAME);
+			const char *nick;
+
+			if (!skip_prefix(main_branch, "refs/heads/", &nick))
+				BUG("unexpected default branch '%s'",
+				    main_branch);
+			install_branch_config(0, nick, option_origin,
+					      main_branch);
+			free(main_branch);
+		}
 	}
 
 	write_refspec_config(src_ref_prefix, our_head_points_at,
