@@ -67,4 +67,12 @@ test_expect_success 'clone -b not allowed with empty repos' '
 	test_must_fail git clone -b branch empty clone-branch-empty
 '
 
+test_expect_success 'chooses correct default branch name' '
+	git -c init.defaultBranch=up clone empty whats-up &&
+	test_write_lines refs/heads/up refs/heads/up >expect &&
+	git -C whats-up symbolic-ref HEAD >actual &&
+	git -C whats-up config branch.up.merge >>actual &&
+	test_cmp expect actual
+'
+
 test_done
