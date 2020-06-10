@@ -35,6 +35,7 @@ ifndef NO_OPENSSL
 endif
 
 ifndef NO_PTHREADS
+	PTHREAD_LIBS = -lpthread
 	CFLAGS += $(PTHREADS_CFLAGS)
 	EXTLIBS += $(PTHREAD_LIBS)
 endif
@@ -74,7 +75,7 @@ endif
 endif
 
 svn-fe$X: svn-fe.o $(VCSSVN_LIB) $(XDIFF_LIB) $(GIT_LIB)
-	$(QUIET_LINK)$(CC) $(CFLAGS) $(LDFLAGS) $(EXTLIBS) -o $@ svn-fe.o $(LIBS)
+	$(QUIET_LINK)$(CC) $(CFLAGS) $(LDFLAGS) -o $@ svn-fe.o $(LIBS) $(EXTLIBS)
 
 svn-fe.o: svn-fe.c ../../vcs-svn/svndump.h
 	$(QUIET_CC)$(CC) $(CFLAGS) -I../../vcs-svn -o $*.o -c $<
