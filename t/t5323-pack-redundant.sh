@@ -36,7 +36,7 @@ relationship between packs and objects is as follows:
 
 . ./test-lib.sh
 
-master_repo=main.git
+main_repo=main.git
 shared_repo=shared.git
 
 # Create commits in <repo> and assign each commit's oid to shell variables
@@ -108,8 +108,8 @@ format_packfiles () {
 }
 
 test_expect_success 'setup main repo' '
-	git init --bare "$master_repo" &&
-	create_commits_in "$master_repo" A B C D E F G H I J K L M N O P Q R
+	git init --bare "$main_repo" &&
+	create_commits_in "$main_repo" A B C D E F G H I J K L M N O P Q R
 '
 
 #############################################################################
@@ -125,7 +125,7 @@ test_expect_success 'setup main repo' '
 #
 #############################################################################
 test_expect_success 'main: no redundant for pack 1, 2, 3' '
-	create_pack_in "$master_repo" P1 <<-EOF &&
+	create_pack_in "$main_repo" P1 <<-EOF &&
 		$T
 		$A
 		$B
@@ -135,7 +135,7 @@ test_expect_success 'main: no redundant for pack 1, 2, 3' '
 		$F
 		$R
 		EOF
-	create_pack_in "$master_repo" P2 <<-EOF &&
+	create_pack_in "$main_repo" P2 <<-EOF &&
 		$B
 		$C
 		$D
@@ -144,7 +144,7 @@ test_expect_success 'main: no redundant for pack 1, 2, 3' '
 		$H
 		$I
 		EOF
-	create_pack_in "$master_repo" P3 <<-EOF &&
+	create_pack_in "$main_repo" P3 <<-EOF &&
 		$F
 		$I
 		$J
@@ -153,7 +153,7 @@ test_expect_success 'main: no redundant for pack 1, 2, 3' '
 		$M
 		EOF
 	(
-		cd "$master_repo" &&
+		cd "$main_repo" &&
 		git pack-redundant --all >out &&
 		test_must_be_empty out
 	)
@@ -174,21 +174,21 @@ test_expect_success 'main: no redundant for pack 1, 2, 3' '
 #
 #############################################################################
 test_expect_success 'main: one of pack-2/pack-3 is redundant' '
-	create_pack_in "$master_repo" P4 <<-EOF &&
+	create_pack_in "$main_repo" P4 <<-EOF &&
 		$J
 		$K
 		$L
 		$M
 		$P
 		EOF
-	create_pack_in "$master_repo" P5 <<-EOF &&
+	create_pack_in "$main_repo" P5 <<-EOF &&
 		$G
 		$H
 		$N
 		$O
 		EOF
 	(
-		cd "$master_repo" &&
+		cd "$main_repo" &&
 		cat >expect <<-EOF &&
 			P3:$P3
 			EOF
@@ -215,17 +215,17 @@ test_expect_success 'main: one of pack-2/pack-3 is redundant' '
 #
 #############################################################################
 test_expect_success 'main: pack 2, 4, and 6 are redundant' '
-	create_pack_in "$master_repo" P6 <<-EOF &&
+	create_pack_in "$main_repo" P6 <<-EOF &&
 		$N
 		$O
 		$Q
 		EOF
-	create_pack_in "$master_repo" P7 <<-EOF &&
+	create_pack_in "$main_repo" P7 <<-EOF &&
 		$P
 		$Q
 		EOF
 	(
-		cd "$master_repo" &&
+		cd "$main_repo" &&
 		cat >expect <<-EOF &&
 			P2:$P2
 			P4:$P4
@@ -255,11 +255,11 @@ test_expect_success 'main: pack 2, 4, and 6 are redundant' '
 #
 #############################################################################
 test_expect_success 'main: pack-8 (subset of pack-1) is also redundant' '
-	create_pack_in "$master_repo" P8 <<-EOF &&
+	create_pack_in "$main_repo" P8 <<-EOF &&
 		$A
 		EOF
 	(
-		cd "$master_repo" &&
+		cd "$main_repo" &&
 		cat >expect <<-EOF &&
 			P2:$P2
 			P4:$P4
@@ -274,7 +274,7 @@ test_expect_success 'main: pack-8 (subset of pack-1) is also redundant' '
 
 test_expect_success 'main: clean loose objects' '
 	(
-		cd "$master_repo" &&
+		cd "$main_repo" &&
 		git prune-packed &&
 		find objects -type f | sed -e "/objects\/pack\//d" >out &&
 		test_must_be_empty out
@@ -283,7 +283,7 @@ test_expect_success 'main: clean loose objects' '
 
 test_expect_success 'main: remove redundant packs and pass fsck' '
 	(
-		cd "$master_repo" &&
+		cd "$main_repo" &&
 		git pack-redundant --all | xargs rm &&
 		git fsck &&
 		git pack-redundant --all >out &&
@@ -294,10 +294,10 @@ test_expect_success 'main: remove redundant packs and pass fsck' '
 # The following test cases will execute inside `shared.git`, instead of
 # inside `main.git`.
 test_expect_success 'setup shared.git' '
-	git clone --mirror "$master_repo" "$shared_repo" &&
+	git clone --mirror "$main_repo" "$shared_repo" &&
 	(
 		cd "$shared_repo" &&
-		printf "../../$master_repo/objects\n" >objects/info/alternates
+		printf "../../$main_repo/objects\n" >objects/info/alternates
 	)
 '
 

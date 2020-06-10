@@ -89,12 +89,12 @@ test_expect_success '"add" from a linked checkout' '
 '
 
 test_expect_success '"add" worktree creating new branch' '
-	git worktree add -b newmaster there main &&
+	git worktree add -b newmain there main &&
 	(
 		cd there &&
 		test_cmp ../init.t init.t &&
 		git symbolic-ref HEAD >actual &&
-		echo refs/heads/newmaster >expect &&
+		echo refs/heads/newmain >expect &&
 		test_cmp expect actual &&
 		git fsck
 	)
@@ -103,7 +103,7 @@ test_expect_success '"add" worktree creating new branch' '
 test_expect_success 'die the same branch is already checked out' '
 	(
 		cd here &&
-		test_must_fail git checkout newmaster
+		test_must_fail git checkout newmain
 	)
 '
 
@@ -112,20 +112,20 @@ test_expect_success SYMLINKS 'die the same branch is already checked out (symlin
 	ref=$(git -C there symbolic-ref HEAD) &&
 	rm "$head" &&
 	ln -s "$ref" "$head" &&
-	test_must_fail git -C here checkout newmaster
+	test_must_fail git -C here checkout newmain
 '
 
 test_expect_success 'not die the same branch is already checked out' '
 	(
 		cd here &&
-		git worktree add --force anothernewmaster newmaster
+		git worktree add --force anothernewmain newmain
 	)
 '
 
 test_expect_success 'not die on re-checking out current branch' '
 	(
 		cd there &&
-		git checkout newmaster
+		git checkout newmain
 	)
 '
 
@@ -238,9 +238,9 @@ test_expect_success '"add" -B/--detach mutually exclusive' '
 '
 
 test_expect_success '"add -B" fails if the branch is checked out' '
-	git rev-parse newmaster >before &&
-	test_must_fail git worktree add -B newmaster bamboo main &&
-	git rev-parse newmaster >after &&
+	git rev-parse newmain >before &&
+	test_must_fail git worktree add -B newmain bamboo main &&
+	git rev-parse newmain >after &&
 	test_cmp before after
 '
 
@@ -358,14 +358,14 @@ setup_remote_repo () {
 	git init $1 &&
 	(
 		cd $1 &&
-		test_commit $1_master &&
+		test_commit $1_main &&
 		git checkout -b foo &&
 		test_commit upstream_foo
 	) &&
 	git init $2 &&
 	(
 		cd $2 &&
-		test_commit $2_master &&
+		test_commit $2_main &&
 		git remote add $1 ../$1 &&
 		git config remote.$1.fetch \
 			"refs/heads/*:refs/remotes/$1/*" &&

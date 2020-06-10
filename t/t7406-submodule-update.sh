@@ -14,10 +14,10 @@ submodule and "git submodule update --rebase/--merge" does not detach the HEAD.
 
 compare_head()
 {
-    sha_master=$(git rev-list --max-count=1 main)
+    sha_main=$(git rev-list --max-count=1 main)
     sha_head=$(git rev-list --max-count=1 HEAD)
 
-    test "$sha_master" = "$sha_head"
+    test "$sha_main" = "$sha_head"
 }
 
 

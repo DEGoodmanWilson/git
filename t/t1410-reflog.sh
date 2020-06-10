@@ -187,29 +187,29 @@ test_expect_success 'delete' '
 	git commit -m tiger C &&
 
 	HEAD_entry_count=$(git reflog | wc -l) &&
-	master_entry_count=$(git reflog show main | wc -l) &&
+	main_entry_count=$(git reflog show main | wc -l) &&
 
 	test $HEAD_entry_count = 5 &&
-	test $master_entry_count = 5 &&
+	test $main_entry_count = 5 &&
 
 
 	git reflog delete main@{1} &&
 	git reflog show main > output &&
-	test_line_count = $(($master_entry_count - 1)) output &&
+	test_line_count = $(($main_entry_count - 1)) output &&
 	test $HEAD_entry_count = $(git reflog | wc -l) &&
 	! grep ox < output &&
 
-	master_entry_count=$(wc -l < output) &&
+	main_entry_count=$(wc -l < output) &&
 
 	git reflog delete HEAD@{1} &&
 	test $(($HEAD_entry_count -1)) = $(git reflog | wc -l) &&
-	test $master_entry_count = $(git reflog show main | wc -l) &&
+	test $main_entry_count = $(git reflog show main | wc -l) &&
 
 	HEAD_entry_count=$(git reflog | wc -l) &&
 
 	git reflog delete main@{07.04.2005.15:15:00.-0700} &&
 	git reflog show main > output &&
-	test_line_count = $(($master_entry_count - 1)) output &&
+	test_line_count = $(($main_entry_count - 1)) output &&
 	! grep dragon < output
 
 '

@@ -447,8 +447,8 @@ test_expect_success PERL 'required process filter should filter data for various
 		git commit -m "test commit 3" &&
 		git checkout empty-branch &&
 		filter_git rebase --onto empty-branch main^^ main &&
-		MASTER2=$(git rev-parse --verify main) &&
-		META="ref=refs/heads/main treeish=$MASTER2" &&
+		MAIN2=$(git rev-parse --verify main) &&
+		META="ref=refs/heads/main treeish=$MAIN2" &&
 		cat >expected.log <<-EOF &&
 			START
 			init handshake complete
@@ -491,9 +491,9 @@ test_expect_success PERL 'required process filter should filter data for various
 		test_cmp_exclude_clean expected.log debug.log &&
 
 		git checkout -b merge empty-branch &&
-		git branch -f main $MASTER2 &&
+		git branch -f main $MAIN2 &&
 		filter_git merge main &&
-		META="treeish=$MASTER2" &&
+		META="treeish=$MAIN2" &&
 		cat >expected.log <<-EOF &&
 			START
 			init handshake complete
@@ -507,7 +507,7 @@ test_expect_success PERL 'required process filter should filter data for various
 		test_cmp_exclude_clean expected.log debug.log &&
 
 		filter_git archive main >/dev/null &&
-		META="ref=refs/heads/main treeish=$MASTER2" &&
+		META="ref=refs/heads/main treeish=$MAIN2" &&
 		cat >expected.log <<-EOF &&
 			START
 			init handshake complete
@@ -520,7 +520,7 @@ test_expect_success PERL 'required process filter should filter data for various
 		EOF
 		test_cmp_exclude_clean expected.log debug.log &&
 
-		TREE="$(git rev-parse $MASTER2^{tree})" &&
+		TREE="$(git rev-parse $MAIN2^{tree})" &&
 		filter_git archive $TREE >/dev/null &&
 		META="treeish=$TREE" &&
 		cat >expected.log <<-EOF &&

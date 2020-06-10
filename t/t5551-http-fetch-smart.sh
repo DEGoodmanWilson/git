@@ -334,12 +334,12 @@ test_expect_success 'large fetch-pack requests can be sent using chunked encodin
 test_expect_success 'test allowreachablesha1inwant' '
 	test_when_finished "rm -rf test_reachable.git" &&
 	server="$HTTPD_DOCUMENT_ROOT_PATH/repo.git" &&
-	master_sha=$(git -C "$server" rev-parse refs/heads/main) &&
+	main_sha=$(git -C "$server" rev-parse refs/heads/main) &&
 	git -C "$server" config uploadpack.allowreachablesha1inwant 1 &&
 
 	git init --bare test_reachable.git &&
 	git -C test_reachable.git remote add origin "$HTTPD_URL/smart/repo.git" &&
-	git -C test_reachable.git fetch origin "$master_sha"
+	git -C test_reachable.git fetch origin "$main_sha"
 '
 
 test_expect_success 'test allowreachablesha1inwant with unreachable' '
@@ -353,7 +353,7 @@ test_expect_success 'test allowreachablesha1inwant with unreachable' '
 	git push public :refs/heads/doomed &&
 
 	server="$HTTPD_DOCUMENT_ROOT_PATH/repo.git" &&
-	master_sha=$(git -C "$server" rev-parse refs/heads/main) &&
+	main_sha=$(git -C "$server" rev-parse refs/heads/main) &&
 	git -C "$server" config uploadpack.allowreachablesha1inwant 1 &&
 
 	git init --bare test_reachable.git &&
@@ -375,7 +375,7 @@ test_expect_success 'test allowanysha1inwant with unreachable' '
 	git push public :refs/heads/doomed &&
 
 	server="$HTTPD_DOCUMENT_ROOT_PATH/repo.git" &&
-	master_sha=$(git -C "$server" rev-parse refs/heads/main) &&
+	main_sha=$(git -C "$server" rev-parse refs/heads/main) &&
 	git -C "$server" config uploadpack.allowreachablesha1inwant 1 &&
 
 	git init --bare test_reachable.git &&

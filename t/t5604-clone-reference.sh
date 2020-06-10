@@ -152,9 +152,9 @@ test_expect_success 'fetch with incomplete alternates' '
 		git remote add J "file://$base_dir/J" &&
 		GIT_TRACE_PACKET=$U.K git fetch J
 	) &&
-	master_object=$(cd A && git for-each-ref --format="%(objectname)" refs/heads/main) &&
+	main_object=$(cd A && git for-each-ref --format="%(objectname)" refs/heads/main) &&
 	test -s "$U.K" &&
-	! grep " want $master_object" "$U.K" &&
+	! grep " want $main_object" "$U.K" &&
 	tag_object=$(cd A && git for-each-ref --format="%(objectname)" refs/tags/HEAD) &&
 	! grep " want $tag_object" "$U.K"
 '

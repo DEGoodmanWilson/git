@@ -46,14 +46,14 @@ test_expect_success 'only one truly conflicting path' '
 	do
 		echo $i/3 >>$i.txt
 	done &&
-	echo "4master" >>4.txt &&
+	echo "4main" >>4.txt &&
 	git commit -a -m "main 1-9 +4" &&
 	test_must_fail git merge side &&
 	cat <<-\EOF >4.txt &&
 	4
 	4/2
 	4/3
-	4master
+	4main
 	4side
 	EOF
 	git add 4.txt &&

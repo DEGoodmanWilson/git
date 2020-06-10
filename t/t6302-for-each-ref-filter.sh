@@ -444,10 +444,10 @@ test_expect_success '--merged is incompatible with --no-merged' '
 test_expect_success 'validate worktree atom' '
 	cat >expect <<-EOF &&
 	main: $(pwd)
-	master_worktree: $(pwd)/worktree_dir
+	main_worktree: $(pwd)/worktree_dir
 	side: not checked out
 	EOF
-	git worktree add -b master_worktree worktree_dir main &&
+	git worktree add -b main_worktree worktree_dir main &&
 	git for-each-ref --format="%(refname:short): %(if)%(worktreepath)%(then)%(worktreepath)%(else)not checked out%(end)" refs/heads/ >actual &&
 	rm -r worktree_dir &&
 	git worktree prune &&

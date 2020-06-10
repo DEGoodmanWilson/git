@@ -75,11 +75,11 @@ test_expect_success "fetch test for-merge" '
 	git fetch &&
 	git rev-parse --verify refs/heads/two &&
 	git rev-parse --verify refs/heads/one &&
-	master_in_two=$(cd ../two && git rev-parse main) &&
+	main_in_two=$(cd ../two && git rev-parse main) &&
 	one_in_two=$(cd ../two && git rev-parse one) &&
 	{
 		echo "$one_in_two	"
-		echo "$master_in_two	not-for-merge"
+		echo "$main_in_two	not-for-merge"
 	} >expected &&
 	cut -f -2 .git/FETCH_HEAD >actual &&
 	test_cmp expected actual'

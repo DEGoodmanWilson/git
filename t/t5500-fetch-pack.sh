@@ -409,7 +409,7 @@ test_expect_success 'in_vain resetted upon ACK' '
 
 	# Linked list of commits on main. The first is common; the rest are
 	# not.
-	test_commit -C myserver first_master_commit &&
+	test_commit -C myserver first_main_commit &&
 	git clone "file://$(pwd)/myserver" myclient &&
 	test_commit_bulk -C myclient 255 &&
 

@@ -157,8 +157,8 @@ test_expect_success 'prepare for conflicts' '
 	git checkout -b conflict &&
 	test_commit one main.txt one &&
 	git branch conflict_second &&
-	git mv main.txt sub_master.txt &&
-	git commit -m "main.txt renamed in sub_master.txt" &&
+	git mv main.txt sub_main.txt &&
+	git commit -m "main.txt renamed in sub_main.txt" &&
 	git checkout conflict_second &&
 	git mv main.txt sub_second.txt &&
 	git commit -m "main.txt renamed in sub_second.txt"
@@ -176,7 +176,7 @@ You have unmerged paths.
 Unmerged paths:
   (use "git add/rm <file>..." as appropriate to mark resolution)
 	both deleted:    main.txt
-	added by them:   sub_master.txt
+	added by them:   sub_main.txt
 	added by us:     sub_second.txt
 
 no changes added to commit (use "git add" and/or "git commit -a")
@@ -189,7 +189,7 @@ EOF
 test_expect_success 'status when conflicts with only rm advice (both deleted)' '
 	git reset --hard conflict_second &&
 	test_must_fail git merge conflict &&
-	git add sub_master.txt &&
+	git add sub_main.txt &&
 	git add sub_second.txt &&
 	cat >expected <<\EOF &&
 On branch conflict_second
@@ -198,7 +198,7 @@ You have unmerged paths.
   (use "git merge --abort" to abort the merge)
 
 Changes to be committed:
-	new file:   sub_master.txt
+	new file:   sub_main.txt
 
 Unmerged paths:
   (use "git rm <file>..." to mark resolution)

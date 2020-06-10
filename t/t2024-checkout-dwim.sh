@@ -29,11 +29,11 @@ status_uno_is_clean () {
 }
 
 test_expect_success 'setup' '
-	test_commit my_master &&
+	test_commit my_main &&
 	git init repo_a &&
 	(
 		cd repo_a &&
-		test_commit a_master &&
+		test_commit a_main &&
 		git checkout -b foo &&
 		test_commit a_foo &&
 		git checkout -b bar &&
@@ -44,7 +44,7 @@ test_expect_success 'setup' '
 	git init repo_b &&
 	(
 		cd repo_b &&
-		test_commit b_master &&
+		test_commit b_main &&
 		git checkout -b foo &&
 		test_commit b_foo &&
 		git checkout -b baz &&
@@ -172,7 +172,7 @@ test_expect_success 'setup more remotes with unconventional refspecs' '
 	git init repo_c &&
 	(
 		cd repo_c &&
-		test_commit c_master &&
+		test_commit c_main &&
 		git checkout -b bar &&
 		test_commit c_bar &&
 		git checkout -b spam &&
@@ -181,7 +181,7 @@ test_expect_success 'setup more remotes with unconventional refspecs' '
 	git init repo_d &&
 	(
 		cd repo_d &&
-		test_commit d_master &&
+		test_commit d_main &&
 		git checkout -b baz &&
 		test_commit d_baz &&
 		git checkout -b eggs &&

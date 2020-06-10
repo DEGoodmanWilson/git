@@ -61,7 +61,7 @@ test_expect_success 'further setup' '
 	git add b d/z &&
 	test_tick &&
 	git commit -m "main touches b" &&
-	git tag master_b0 &&
+	git tag main_b0 &&
 	git merge side &&
 	echo Touched >b &&
 	git add b &&
@@ -76,13 +76,13 @@ test_expect_success 'path optimization 2' '
 '
 
 test_expect_success 'pathspec with leading path' '
-	git rev-parse main^ master_b0 side_c0 initial >expected &&
+	git rev-parse main^ main_b0 side_c0 initial >expected &&
 	git rev-list HEAD -- d >actual &&
 	test_cmp expected actual
 '
 
 test_expect_success 'pathspec with glob (1)' '
-	git rev-parse main^ master_b0 side_c0 initial >expected &&
+	git rev-parse main^ main_b0 side_c0 initial >expected &&
 	git rev-list HEAD -- "d/*" >actual &&
 	test_cmp expected actual
 '

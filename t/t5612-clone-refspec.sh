@@ -26,10 +26,10 @@ test_expect_success 'setup' '
 	git clone --no-tags . dir_all_no_tags &&
 
 	# main --single that follows HEAD=main
-	git clone --single-branch . dir_master &&
+	git clone --single-branch . dir_main &&
 
 	# main --single that follows HEAD=main with no tags
-	git clone --single-branch --no-tags . dir_master_no_tags &&
+	git clone --single-branch --no-tags . dir_main_no_tags &&
 
 	# default --single that follows HEAD=side
 	git checkout side &&
@@ -102,7 +102,7 @@ test_expect_success 'clone with --no-tags' '
 
 test_expect_success '--single-branch while HEAD pointing at main' '
 	(
-		cd dir_master &&
+		cd dir_main &&
 		git fetch --force &&
 		git for-each-ref refs/remotes/origin >refs &&
 		sed -e "/HEAD$/d" \
@@ -113,7 +113,7 @@ test_expect_success '--single-branch while HEAD pointing at main' '
 	# get & check latest tags
 	test_cmp expect actual &&
 	(
-		cd dir_master &&
+		cd dir_main &&
 		git fetch --tags --force &&
 		git for-each-ref refs/tags >../actual
 	) &&
@@ -124,7 +124,7 @@ test_expect_success '--single-branch while HEAD pointing at main' '
 
 test_expect_success '--single-branch while HEAD pointing at main and --no-tags' '
 	(
-		cd dir_master_no_tags &&
+		cd dir_main_no_tags &&
 		git fetch &&
 		git for-each-ref refs/remotes/origin >refs &&
 		sed -e "/HEAD$/d" \
@@ -135,7 +135,7 @@ test_expect_success '--single-branch while HEAD pointing at main and --no-tags' 
 	test_cmp expect actual &&
 	# get tags (noop)
 	(
-		cd dir_master_no_tags &&
+		cd dir_main_no_tags &&
 		git fetch &&
 		git for-each-ref refs/tags >../actual
 	) &&
@@ -143,7 +143,7 @@ test_expect_success '--single-branch while HEAD pointing at main and --no-tags' 
 	test_line_count = 0 actual &&
 	# get tags with --tags overrides tagOpt
 	(
-		cd dir_master_no_tags &&
+		cd dir_main_no_tags &&
 		git fetch --tags &&
 		git for-each-ref refs/tags >../actual
 	) &&

@@ -40,9 +40,9 @@ test_expect_success 'push mirror creates new branches' '
 		echo one >foo && git add foo && git commit -m one &&
 		git push --mirror up
 	) &&
-	master_master=$(cd main && git show-ref -s --verify refs/heads/main) &&
-	mirror_master=$(cd mirror && git show-ref -s --verify refs/heads/main) &&
-	test "$master_master" = "$mirror_master"
+	main_main=$(cd main && git show-ref -s --verify refs/heads/main) &&
+	mirror_main=$(cd mirror && git show-ref -s --verify refs/heads/main) &&
+	test "$main_main" = "$mirror_main"
 
 '
 
@@ -56,9 +56,9 @@ test_expect_success 'push mirror updates existing branches' '
 		echo two >foo && git add foo && git commit -m two &&
 		git push --mirror up
 	) &&
-	master_master=$(cd main && git show-ref -s --verify refs/heads/main) &&
-	mirror_master=$(cd mirror && git show-ref -s --verify refs/heads/main) &&
-	test "$master_master" = "$mirror_master"
+	main_main=$(cd main && git show-ref -s --verify refs/heads/main) &&
+	mirror_main=$(cd mirror && git show-ref -s --verify refs/heads/main) &&
+	test "$main_main" = "$mirror_main"
 
 '
 
@@ -74,9 +74,9 @@ test_expect_success 'push mirror force updates existing branches' '
 		git reset --hard HEAD^ &&
 		git push --mirror up
 	) &&
-	master_master=$(cd main && git show-ref -s --verify refs/heads/main) &&
-	mirror_master=$(cd mirror && git show-ref -s --verify refs/heads/main) &&
-	test "$master_master" = "$mirror_master"
+	main_main=$(cd main && git show-ref -s --verify refs/heads/main) &&
+	mirror_main=$(cd mirror && git show-ref -s --verify refs/heads/main) &&
+	test "$main_main" = "$mirror_main"
 
 '
 
@@ -111,12 +111,12 @@ test_expect_success 'push mirror adds, updates and removes branches together' '
 		echo two >foo && git add foo && git commit -m two &&
 		git push --mirror up
 	) &&
-	master_master=$(cd main && git show-ref -s --verify refs/heads/main) &&
-	master_add=$(cd main && git show-ref -s --verify refs/heads/add) &&
-	mirror_master=$(cd mirror && git show-ref -s --verify refs/heads/main) &&
+	main_main=$(cd main && git show-ref -s --verify refs/heads/main) &&
+	main_add=$(cd main && git show-ref -s --verify refs/heads/add) &&
+	mirror_main=$(cd mirror && git show-ref -s --verify refs/heads/main) &&
 	mirror_add=$(cd mirror && git show-ref -s --verify refs/heads/add) &&
-	test "$master_master" = "$mirror_master" &&
-	test "$master_add" = "$mirror_add" &&
+	test "$main_main" = "$mirror_main" &&
+	test "$main_add" = "$mirror_add" &&
 	(
 		cd mirror &&
 		invert git show-ref -s --verify refs/heads/remove
@@ -132,12 +132,12 @@ test_expect_success 'push mirror creates new tags' '
 	(
 		cd main &&
 		echo one >foo && git add foo && git commit -m one &&
-		git tag -f tmaster main &&
+		git tag -f tmain main &&
 		git push --mirror up
 	) &&
-	master_master=$(cd main && git show-ref -s --verify refs/tags/tmaster) &&
-	mirror_master=$(cd mirror && git show-ref -s --verify refs/tags/tmaster) &&
-	test "$master_master" = "$mirror_master"
+	main_main=$(cd main && git show-ref -s --verify refs/tags/tmain) &&
+	mirror_main=$(cd mirror && git show-ref -s --verify refs/tags/tmain) &&
+	test "$main_main" = "$mirror_main"
 
 '
 
@@ -147,15 +147,15 @@ test_expect_success 'push mirror updates existing tags' '
 	(
 		cd main &&
 		echo one >foo && git add foo && git commit -m one &&
-		git tag -f tmaster main &&
+		git tag -f tmain main &&
 		git push --mirror up &&
 		echo two >foo && git add foo && git commit -m two &&
-		git tag -f tmaster main &&
+		git tag -f tmain main &&
 		git push --mirror up
 	) &&
-	master_master=$(cd main && git show-ref -s --verify refs/tags/tmaster) &&
-	mirror_master=$(cd mirror && git show-ref -s --verify refs/tags/tmaster) &&
-	test "$master_master" = "$mirror_master"
+	main_main=$(cd main && git show-ref -s --verify refs/tags/tmain) &&
+	mirror_main=$(cd mirror && git show-ref -s --verify refs/tags/tmain) &&
+	test "$main_main" = "$mirror_main"
 
 '
 
@@ -165,18 +165,18 @@ test_expect_success 'push mirror force updates existing tags' '
 	(
 		cd main &&
 		echo one >foo && git add foo && git commit -m one &&
-		git tag -f tmaster main &&
+		git tag -f tmain main &&
 		git push --mirror up &&
 		echo two >foo && git add foo && git commit -m two &&
-		git tag -f tmaster main &&
+		git tag -f tmain main &&
 		git push --mirror up &&
 		git reset --hard HEAD^ &&
-		git tag -f tmaster main &&
+		git tag -f tmain main &&
 		git push --mirror up
 	) &&
-	master_master=$(cd main && git show-ref -s --verify refs/tags/tmaster) &&
-	mirror_master=$(cd mirror && git show-ref -s --verify refs/tags/tmaster) &&
-	test "$master_master" = "$mirror_master"
+	main_main=$(cd main && git show-ref -s --verify refs/tags/tmain) &&
+	mirror_main=$(cd mirror && git show-ref -s --verify refs/tags/tmain) &&
+	test "$main_main" = "$mirror_main"
 
 '
 
@@ -204,21 +204,21 @@ test_expect_success 'push mirror adds, updates and removes tags together' '
 	(
 		cd main &&
 		echo one >foo && git add foo && git commit -m one &&
-		git tag -f tmaster main &&
+		git tag -f tmain main &&
 		git tag -f tremove main &&
 		git push --mirror up &&
 		git tag -d tremove &&
 		git tag tadd main &&
 		echo two >foo && git add foo && git commit -m two &&
-		git tag -f tmaster main &&
+		git tag -f tmain main &&
 		git push --mirror up
 	) &&
-	master_master=$(cd main && git show-ref -s --verify refs/tags/tmaster) &&
-	master_add=$(cd main && git show-ref -s --verify refs/tags/tadd) &&
-	mirror_master=$(cd mirror && git show-ref -s --verify refs/tags/tmaster) &&
+	main_main=$(cd main && git show-ref -s --verify refs/tags/tmain) &&
+	main_add=$(cd main && git show-ref -s --verify refs/tags/tadd) &&
+	mirror_main=$(cd mirror && git show-ref -s --verify refs/tags/tmain) &&
 	mirror_add=$(cd mirror && git show-ref -s --verify refs/tags/tadd) &&
-	test "$master_master" = "$mirror_master" &&
-	test "$master_add" = "$mirror_add" &&
+	test "$main_main" = "$mirror_main" &&
+	test "$main_add" = "$mirror_add" &&
 	(
 		cd mirror &&
 		invert git show-ref -s --verify refs/tags/tremove

@@ -10,8 +10,8 @@ test_expect_success setup '
 	test_tick &&
 	test_commit both.txt both.txt initial &&
 	git branch topic &&
-	test_commit modified_in_master both.txt in_master &&
-	test_commit added_in_master each.txt in_master &&
+	test_commit modified_in_main both.txt in_main &&
+	test_commit added_in_main each.txt in_main &&
 	git checkout topic &&
 	test_commit modified_in_topic both.txt in_topic &&
 	test_commit added_in_topic each.txt in_topic

@@ -17,7 +17,7 @@ test_expect_success 'prepare for conflicts' '
 	git config --global advice.statusuoption false &&
 	test_commit init main.txt init &&
 	git branch conflicts &&
-	test_commit on_master main.txt on_master &&
+	test_commit on_main main.txt on_main &&
 	git checkout conflicts &&
 	test_commit on_conflicts main.txt on_conflicts
 '
@@ -122,7 +122,7 @@ test_expect_success 'prepare for rebase_i_conflicts' '
 	git checkout -b rebase_i_conflicts &&
 	test_commit one_unmerge main.txt one_unmerge &&
 	git branch rebase_i_conflicts_second &&
-	test_commit one_master main.txt one_master &&
+	test_commit one_main main.txt one_main &&
 	git checkout rebase_i_conflicts_second &&
 	test_commit one_second main.txt one_second
 '

@@ -631,25 +631,25 @@ test_expect_success 'allow deleting an invalid remote ref' '
 
 test_expect_success 'pushing valid refs triggers post-receive and post-update hooks' '
 	mk_test_with_hooks testrepo heads/main heads/next &&
-	orgmaster=$(cd testrepo && git show-ref -s --verify refs/heads/main) &&
-	newmaster=$(git show-ref -s --verify refs/heads/main) &&
+	orgmain=$(cd testrepo && git show-ref -s --verify refs/heads/main) &&
+	newmain=$(git show-ref -s --verify refs/heads/main) &&
 	orgnext=$(cd testrepo && git show-ref -s --verify refs/heads/next) &&
 	newnext=$ZERO_OID &&
 	git push testrepo refs/heads/main:refs/heads/main :refs/heads/next &&
 	(
 		cd testrepo/.git &&
 		cat >pre-receive.expect <<-EOF &&
-		$orgmaster $newmaster refs/heads/main
+		$orgmain $newmain refs/heads/main
 		$orgnext $newnext refs/heads/next
 		EOF
 
 		cat >update.expect <<-EOF &&
-		refs/heads/main $orgmaster $newmaster
+		refs/heads/main $orgmain $newmain
 		refs/heads/next $orgnext $newnext
 		EOF
 
 		cat >post-receive.expect <<-EOF &&
-		$orgmaster $newmaster refs/heads/main
+		$orgmain $newmain refs/heads/main
 		$orgnext $newnext refs/heads/next
 		EOF
 
@@ -696,23 +696,23 @@ test_expect_success 'deleting dangling ref triggers hooks with correct args' '
 
 test_expect_success 'deletion of a non-existent ref is not fed to post-receive and post-update hooks' '
 	mk_test_with_hooks testrepo heads/main &&
-	orgmaster=$(cd testrepo && git show-ref -s --verify refs/heads/main) &&
-	newmaster=$(git show-ref -s --verify refs/heads/main) &&
+	orgmain=$(cd testrepo && git show-ref -s --verify refs/heads/main) &&
+	newmain=$(git show-ref -s --verify refs/heads/main) &&
 	git push testrepo main :refs/heads/nonexistent &&
 	(
 		cd testrepo/.git &&
 		cat >pre-receive.expect <<-EOF &&
-		$orgmaster $newmaster refs/heads/main
+		$orgmain $newmain refs/heads/main
 		$ZERO_OID $ZERO_OID refs/heads/nonexistent
 		EOF
 
 		cat >update.expect <<-EOF &&
-		refs/heads/main $orgmaster $newmaster
+		refs/heads/main $orgmain $newmain
 		refs/heads/nonexistent $ZERO_OID $ZERO_OID
 		EOF
 
 		cat >post-receive.expect <<-EOF &&
-		$orgmaster $newmaster refs/heads/main
+		$orgmain $newmain refs/heads/main
 		EOF
 
 		cat >post-update.expect <<-EOF &&
@@ -748,8 +748,8 @@ test_expect_success 'deletion of a non-existent ref alone does trigger post-rece
 
 test_expect_success 'mixed ref updates, deletes, invalid deletes trigger hooks with correct input' '
 	mk_test_with_hooks testrepo heads/main heads/next heads/pu &&
-	orgmaster=$(cd testrepo && git show-ref -s --verify refs/heads/main) &&
-	newmaster=$(git show-ref -s --verify refs/heads/main) &&
+	orgmain=$(cd testrepo && git show-ref -s --verify refs/heads/main) &&
+	newmain=$(git show-ref -s --verify refs/heads/main) &&
 	orgnext=$(cd testrepo && git show-ref -s --verify refs/heads/next) &&
 	newnext=$ZERO_OID &&
 	orgpu=$(cd testrepo && git show-ref -s --verify refs/heads/pu) &&
@@ -760,21 +760,21 @@ test_expect_success 'mixed ref updates, deletes, invalid deletes trigger hooks w
 	(
 		cd testrepo/.git &&
 		cat >pre-receive.expect <<-EOF &&
-		$orgmaster $newmaster refs/heads/main
+		$orgmain $newmain refs/heads/main
 		$orgnext $newnext refs/heads/next
 		$orgpu $newpu refs/heads/pu
 		$ZERO_OID $ZERO_OID refs/heads/nonexistent
 		EOF
 
 		cat >update.expect <<-EOF &&
-		refs/heads/main $orgmaster $newmaster
+		refs/heads/main $orgmain $newmain
 		refs/heads/next $orgnext $newnext
 		refs/heads/pu $orgpu $newpu
 		refs/heads/nonexistent $ZERO_OID $ZERO_OID
 		EOF
 
 		cat >post-receive.expect <<-EOF &&
-		$orgmaster $newmaster refs/heads/main
+		$orgmain $newmain refs/heads/main
 		$orgnext $newnext refs/heads/next
 		$orgpu $newpu refs/heads/pu
 		EOF
