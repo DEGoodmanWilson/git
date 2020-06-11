@@ -26,8 +26,9 @@ test_expect_success 'stream omits path names' '
 	! grep xyzzy stream
 '
 
-test_expect_success 'stream allows master as refname' '
-	grep master stream
+test_expect_success 'stream translates master to ref0' '
+	grep refs/heads/ref0 stream &&
+	! grep master stream
 '
 
 test_expect_success 'stream omits other refnames' '
@@ -57,7 +58,7 @@ test_expect_success 'import stream to new repository' '
 test_expect_success 'result has two branches' '
 	git for-each-ref --format="%(refname)" refs/heads >branches &&
 	test_line_count = 2 branches &&
-	other_branch=$(grep -v refs/heads/master branches)
+	other_branch=$(grep -v refs/heads/ref0 branches)
 '
 
 test_expect_success 'repo has original shape and timestamps' '
@@ -65,7 +66,7 @@ test_expect_success 'repo has original shape and timestamps' '
 		git log --format="%m %ct" --left-right --boundary "$@"
 	} &&
 	(cd .. && shape master...other) >expect &&
-	shape master...$other_branch >actual &&
+	shape ref0...$other_branch >actual &&
 	test_cmp expect actual
 '
 

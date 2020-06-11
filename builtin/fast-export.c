@@ -497,7 +497,7 @@ static void *anonymize_ref_component(const void *old, size_t *len)
 {
 	static int counter;
 	struct strbuf out = STRBUF_INIT;
-	strbuf_addf(&out, "ref%d", counter++);
+	strbuf_addf(&out, "ref%d", ++counter);
 	return strbuf_detach(&out, len);
 }
 
@@ -518,11 +518,12 @@ static const char *anonymize_refname(const char *refname)
 	int i;
 
 	/*
-	 * We also leave "master" as a special case, since it does not reveal
-	 * anything interesting.
+	 * In certain circumstances, it might be interesting to be able to
+	 * identify the main branch. For that reason, let's force its name to
+	 * be anonymized to `ref0`.
 	 */
 	if (!strcmp(refname, "refs/heads/master"))
-		return refname;
+		return "refs/heads/ref0";
 
 	strbuf_reset(&anon);
 	for (i = 0; i < ARRAY_SIZE(prefixes); i++) {
