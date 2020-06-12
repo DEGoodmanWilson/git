@@ -464,4 +464,19 @@ test_expect_success MINGW 'redirect std handles' '
 	grep "Needed a single revision" output.txt
 '
 
+test_expect_success '--main-branch' '
+	git init --main-branch=hello main-branch-option &&
+	git -C main-branch-option symbolic-ref HEAD >actual &&
+	echo refs/heads/hello >expect &&
+	test_cmp expect actual &&
+
+	: re-initializing should not change the main branch name &&
+	git init --main-branch=ignore main-branch-option 2>err &&
+	test_i18ngrep "ignoring --main-branch" err &&
+	git -C main-branch-option symbolic-ref HEAD >actual &&
+	grep hello actual &&
+	git -C main-branch-option config core.mainBranch >actual &&
+	grep hello actual
+'
+
 test_done
