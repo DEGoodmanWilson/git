@@ -405,7 +405,7 @@ int send_pack(struct send_pack_args *args,
 	}
 
 	if (!remote_refs) {
-		char *branch_name = git_main_branch_name();
+		char *branch_name = git_main_branch_name(0);
 
 		fprintf(stderr, "No refs in common and none specified; doing nothing.\n"
 			"Perhaps you should specify a branch such as '%s'.\n",

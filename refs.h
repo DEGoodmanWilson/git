@@ -157,9 +157,13 @@ int dwim_log(const char *str, int len, struct object_id *oid, char **ref);
 /*
  * Retrieves the name of the main (or: primary) branch of the given
  * repository.
+ *
+ * The result is an allocated string. Unless the flags ask for a short name, it
+ * will be prefixed with "refs/heads/".
  */
-char *git_main_branch_name(void);
-char *repo_main_branch_name(struct repository *r);
+#define MAIN_BRANCH_FULL_NAME (1<<0)
+char *git_main_branch_name(int flags);
+char *repo_main_branch_name(struct repository *r, int flags);
 
 /*
  * A ref_transaction represents a collection of reference updates that

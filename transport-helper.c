@@ -1044,7 +1044,7 @@ static int push_refs(struct transport *transport,
 	}
 
 	if (!remote_refs) {
-		char *branch_name = git_main_branch_name();
+		char *branch_name = git_main_branch_name(0);
 
 		fprintf(stderr,
 			_("No refs in common and none specified; doing nothing.\n"

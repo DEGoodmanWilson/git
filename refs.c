@@ -560,8 +560,9 @@ void expand_ref_prefix(struct argv_array *prefixes, const char *prefix)
 		argv_array_pushf(prefixes, *p, len, prefix);
 }
 
-char *repo_main_branch_name(struct repository *r)
+char *repo_main_branch_name(struct repository *r, int flags)
 {
+	int full_name = flags & MAIN_BRANCH_FULL_NAME;
 	const char *config_key = "core.mainbranch";
 	const char *config_display_key = "core.mainBranch";
 	const char *fall_back = "master";
@@ -570,7 +571,10 @@ char *repo_main_branch_name(struct repository *r)
 	if (repo_config_get_string(r, config_key, &name) < 0)
 		die(_("could not retrieve `%s`"), config_display_key);
 
-	ret = name ? name : xstrdup(fall_back);
+	if (full_name)
+		ret = xstrfmt("refs/heads/%s", name ? name : fall_back);
+	else
+		ret = name ? name : xstrdup(fall_back);
 
 	if (check_refname_format(ret, REFNAME_ALLOW_ONELEVEL))
 		die(_("invalid branch name: %s = %s"),
@@ -582,9 +586,9 @@ char *repo_main_branch_name(struct repository *r)
 	return ret;
 }
 
-char *git_main_branch_name(void)
+char *git_main_branch_name(int flags)
 {
-	return repo_main_branch_name(the_repository);
+	return repo_main_branch_name(the_repository, flags);
 }
 
 /*

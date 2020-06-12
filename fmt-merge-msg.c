@@ -451,7 +451,7 @@ static void fmt_merge_msg_title(struct strbuf *out,
 			strbuf_addf(out, " of %s", srcs.items[i].string);
 	}
 
-	main_branch = git_main_branch_name();
+	main_branch = git_main_branch_name(0);
 	if (!strcmp(main_branch, current_branch))
 		strbuf_addch(out, '\n');
 	else
