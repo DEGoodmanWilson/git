@@ -515,14 +515,23 @@ static const char *anonymize_refname(const char *refname)
 	};
 	static struct hashmap refs;
 	static struct strbuf anon = STRBUF_INIT;
+	static char *main_branch;
 	int i;
 
 	/*
 	 * In certain circumstances, it might be interesting to be able to
 	 * identify the main branch. For that reason, let's force its name to
 	 * be anonymized to `ref0`.
+	 *
+	 * While the main branch name might often be `main` for new
+	 * repositories (and `master` for aged ones), and such well-known names
+	 * may not necessarily need anonymizing, it could be configured to use
+	 * a secret word that the user may not want to reveal.
 	 */
-	if (!strcmp(refname, "refs/heads/master"))
+	if (!main_branch)
+		main_branch = git_main_branch_name(MAIN_BRANCH_FULL_NAME);
+
+	if (!strcmp(refname, main_branch))
 		return "refs/heads/ref0";
 
 	strbuf_reset(&anon);

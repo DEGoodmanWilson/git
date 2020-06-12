@@ -31,6 +31,12 @@ test_expect_success 'stream translates master to ref0' '
 	! grep master stream
 '
 
+test_expect_success 'respects configured main branch' '
+	git -c core.mainBranch=does-not-exist \
+		fast-export --anonymize --all >stream-without-ref0 &&
+	! grep ref0 stream-without-ref0
+'
+
 test_expect_success 'stream omits other refnames' '
 	! grep other stream &&
 	! grep mytag stream
