@@ -6,7 +6,7 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: gitk master\n"
+"Project-Id-Version: gitk main\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2019-03-04 11:27+0100\n"
 "PO-Revision-Date: 2019-03-04 11:39+0100\n"

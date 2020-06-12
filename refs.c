@@ -568,7 +568,7 @@ char *repo_main_branch_name(struct repository *r, int flags)
 		 "init.defaultbranch" : "core.mainbranch";
 	const char *config_display_key = for_init ?
 		 "init.defaultBranch" : "core.mainBranch";
-	const char *fall_back = "master";
+	const char *fall_back = for_init ? "main" : "master";
 	char *name = NULL, *ret;
 
 	if (for_init) {

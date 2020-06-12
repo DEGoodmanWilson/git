@@ -4140,7 +4140,7 @@ if {[winfo exists $ui_comm]} {
 	set spell_dict [get_config gui.spellingdictionary]
 	lappend spell_cmd aspell
 	if {$spell_dict ne {}} {
-		lappend spell_cmd --master=$spell_dict
+		lappend spell_cmd --main=$spell_dict
 	}
 	lappend spell_cmd --mode=none
 	lappend spell_cmd --encoding=utf-8

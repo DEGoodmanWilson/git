@@ -90,7 +90,7 @@ method _connect {pipe_fd} {
 
 	# fetch the language
 	if {$major > 0 || ($major == 0 && $minor >= 60)} {
-		puts $pipe_fd {$$cr master}
+		puts $pipe_fd {$$cr main}
 		flush $pipe_fd
 		gets $pipe_fd s_lang
 		regexp {[/\\]([^/\\]+)\.[^\.]+$} $s_lang _ s_lang
@@ -126,7 +126,7 @@ method lang {{n {}}} {
 	if {$n ne {} && $s_lang ne $n && !$s_failed} {
 		set spell_cmd [list |]
 		lappend spell_cmd aspell
-		lappend spell_cmd --master=$n
+		lappend spell_cmd --main=$n
 		lappend spell_cmd --mode=none
 		lappend spell_cmd --encoding=UTF-8
 		lappend spell_cmd pipe

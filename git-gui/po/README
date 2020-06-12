@@ -155,7 +155,7 @@ your patch series to the maintainer and the Git mailing list:
 	$ git send-email --to 'git@vger.kernel.org' \
 	   --cc 'Pat Thoyts <patthoyts@users.sourceforge.net>' \
 	   --subject 'git-gui: Afrikaans translation' \
-	   master..
+	   main..
 
 
 3. Updating your translation.
@@ -167,7 +167,7 @@ itself was updated and there are new messages that need translation.
 
 In any case, make sure you are up to date before starting your work:
 
-	$ git checkout master
+	$ git checkout main
 	$ git pull
 
 In the former case, you will edit po/af.po (again, replace "af" with
@@ -229,7 +229,7 @@ version X:
 
          ? translated
         /
-    ---X---Y---Z (master)
+    ---X---Y---Z (main)
 
 The coordinator could recover from such a mistake by first applying the
 patch to X, replace the translated file in Z, and then running msgmerge
@@ -238,7 +238,7 @@ would look like this:
 
     $ git checkout X
     $ git am -s xx.patch
-    $ git checkout master
+    $ git checkout main
     $ git checkout HEAD@{1} po/xx.po
     $ msgmerge -U po/xx.po po/git-gui.pot
     $ git commit -c HEAD@{1} po/xx.po

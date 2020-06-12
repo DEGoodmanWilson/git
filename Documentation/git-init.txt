@@ -72,7 +72,7 @@ If this is reinitialization, the repository will be moved to the specified path.
 --main-branch=<branch-name>::
 
 Use the specified name for the main (or: initial) branch in the newly created
-repository. If not specified, fall back to the default name: `master`.
+repository. If not specified, fall back to the default name: `main`.
 
 --shared[=(false|true|umask|group|all|world|everybody|0xxx)]::
 

@@ -8437,10 +8437,10 @@ msgstr "fel vid körning av fast-export"
 #, c-format
 msgid ""
 "No refs in common and none specified; doing nothing.\n"
-"Perhaps you should specify a branch such as 'master'.\n"
+"Perhaps you should specify a branch such as 'main'.\n"
 msgstr ""
 "Inga gemensamma referenser och inga angavs; gör inget.\n"
-"Du kanske borde ange en gren såsom \"master\".\n"
+"Du kanske borde ange en gren såsom \"main\".\n"
 
 #: transport-helper.c:1121
 #, c-format
@@ -18942,10 +18942,10 @@ msgstr "git remote [-v | --verbose]"
 
 #: builtin/remote.c:18
 msgid ""
-"git remote add [-t <branch>] [-m <master>] [-f] [--tags | --no-tags] [--"
+"git remote add [-t <branch>] [-m <main>] [-f] [--tags | --no-tags] [--"
 "mirror=<fetch|push>] <name> <url>"
 msgstr ""
-"git remote add [-t <gren>] [-m <master>] [-f] [--tags | --no-tags] [--"
+"git remote add [-t <gren>] [-m <main>] [-f] [--tags | --no-tags] [--"
 "mirror=<fetch|push>] <namn> <url>"
 
 #: builtin/remote.c:19 builtin/remote.c:39
@@ -19053,7 +19053,7 @@ msgid "branch(es) to track"
 msgstr "gren(ar) att spåra"
 
 #: builtin/remote.c:172
-msgid "master branch"
+msgid "main branch"
 msgstr "huvudgren"
 
 #: builtin/remote.c:174
@@ -19061,8 +19061,8 @@ msgid "set up remote as a mirror to push to or fetch from"
 msgstr "ställ in arkiv som spegel att sända eller ta emot från"
 
 #: builtin/remote.c:186
-msgid "specifying a master branch makes no sense with --mirror"
-msgstr "att ange en master-gren ger ingen mening med --mirror"
+msgid "specifying a main branch makes no sense with --mirror"
+msgstr "att ange en main-gren ger ingen mening med --mirror"
 
 #: builtin/remote.c:188
 msgid "specifying branches to track makes sense only with fetch mirrors"
@@ -19080,8 +19080,8 @@ msgstr "\"%s\" är inte ett giltigt namn på fjärrarkiv"
 
 #: builtin/remote.c:239
 #, c-format
-msgid "Could not setup master '%s'"
-msgstr "Kunde inte skapa master \"%s\""
+msgid "Could not setup main '%s'"
+msgstr "Kunde inte skapa main \"%s\""
 
 #: builtin/remote.c:354
 #, c-format

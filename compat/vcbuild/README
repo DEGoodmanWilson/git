@@ -42,9 +42,9 @@ Visual Studio. The initial build will install the vcpkg system and build the
 dependencies automatically. This will take a while.
 
 Instead of generating the `git.sln` file yourself (which requires a full Git
-for Windows SDK), you may want to consider fetching the `vs/master` branch of
+for Windows SDK), you may want to consider fetching the `vs/main` branch of
 https://github.com/git-for-windows/git instead (which is updated automatically
-via CI running `make vcxproj`). The `vs/master` branch does not require a Git
+via CI running `make vcxproj`). The `vs/main` branch does not require a Git
 for Windows to build, but you can run the test scripts in a regular Git Bash.
 
 Note that `make vcxproj` will automatically add and commit the generated `.sln`
@@ -69,7 +69,7 @@ The Steps of Build Git with VS2008
 
        WWW: http://repo.or.cz/w/msvcgit.git
        Git: git clone git://repo.or.cz/msvcgit.git
-       Zip: http://repo.or.cz/w/msvcgit.git?a=snapshot;h=master;sf=zip
+       Zip: http://repo.or.cz/w/msvcgit.git?a=snapshot;h=main;sf=zip
 
    and call the setup_32bit_env.cmd batch script before compiling Git,
    (see repo/package README for details), or the source repository:
@@ -85,7 +85,7 @@ The Steps of Build Git with VS2008
 
        WWW: http://repo.or.cz/w/msysgit.git
        Git: git clone git://repo.or.cz/msysgit.git
-       Zip: http://repo.or.cz/w/msysgit.git?a=snapshot;h=master;sf=zip
+       Zip: http://repo.or.cz/w/msysgit.git?a=snapshot;h=main;sf=zip
 
    This environment is also needed when you use the resulting
    executables, since Git might need to run scripts which are part of

@@ -8458,11 +8458,11 @@ msgstr "gặp lỗi trong khi chạy fast-export"
 #, c-format
 msgid ""
 "No refs in common and none specified; doing nothing.\n"
-"Perhaps you should specify a branch such as 'master'.\n"
+"Perhaps you should specify a branch such as 'main'.\n"
 msgstr ""
 "Không có các tham chiếu trong phần chung và chưa chỉ định; nên không làm gì "
 "cả.\n"
-"Tuy nhiên bạn nên chỉ định một nhánh như “master” chẳng hạn.\n"
+"Tuy nhiên bạn nên chỉ định một nhánh như “main” chẳng hạn.\n"
 
 #: transport-helper.c:1121
 #, c-format
@@ -19083,10 +19083,10 @@ msgstr "git remote [-v | --verbose]"
 
 #: builtin/remote.c:18
 msgid ""
-"git remote add [-t <branch>] [-m <master>] [-f] [--tags | --no-tags] [--"
+"git remote add [-t <branch>] [-m <main>] [-f] [--tags | --no-tags] [--"
 "mirror=<fetch|push>] <name> <url>"
 msgstr ""
-"git remote add [-t <nhánh>] [-m <master>] [-f] [--tags|--no-tags] [--"
+"git remote add [-t <nhánh>] [-m <main>] [-f] [--tags|--no-tags] [--"
 "mirror=<fetch|push>] <tên> <url>"
 
 #: builtin/remote.c:19 builtin/remote.c:39
@@ -19194,16 +19194,16 @@ msgid "branch(es) to track"
 msgstr "các nhánh để theo dõi"
 
 #: builtin/remote.c:172
-msgid "master branch"
-msgstr "nhánh master"
+msgid "main branch"
+msgstr "nhánh main"
 
 #: builtin/remote.c:174
 msgid "set up remote as a mirror to push to or fetch from"
 msgstr "đặt máy chủ (remote) như là một máy bản sao để push hay fetch từ đó"
 
 #: builtin/remote.c:186
-msgid "specifying a master branch makes no sense with --mirror"
-msgstr "đang chỉ định một nhánh master không hợp lý với tùy chọn --mirror"
+msgid "specifying a main branch makes no sense with --mirror"
+msgstr "đang chỉ định một nhánh main không hợp lý với tùy chọn --mirror"
 
 #: builtin/remote.c:188
 msgid "specifying branches to track makes sense only with fetch mirrors"
@@ -19221,8 +19221,8 @@ msgstr "“%s” không phải tên máy chủ hợp lệ"
 
 #: builtin/remote.c:239
 #, c-format
-msgid "Could not setup master '%s'"
-msgstr "Không thể cài đặt nhánh master “%s”"
+msgid "Could not setup main '%s'"
+msgstr "Không thể cài đặt nhánh main “%s”"
 
 #: builtin/remote.c:354
 #, c-format

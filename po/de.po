@@ -8600,10 +8600,10 @@ msgstr "Fehler beim Ausführen von \"fast-export\"."
 #, c-format
 msgid ""
 "No refs in common and none specified; doing nothing.\n"
-"Perhaps you should specify a branch such as 'master'.\n"
+"Perhaps you should specify a branch such as 'main'.\n"
 msgstr ""
 "Keine gemeinsamen Referenzen und nichts spezifiziert; keine Ausführung.\n"
-"Vielleicht sollten Sie einen Branch wie 'master' angeben.\n"
+"Vielleicht sollten Sie einen Branch wie 'main' angeben.\n"
 
 #: transport-helper.c:1121
 #, c-format
@@ -19419,10 +19419,10 @@ msgstr "git remote [-v | --verbose]"
 
 #: builtin/remote.c:18
 msgid ""
-"git remote add [-t <branch>] [-m <master>] [-f] [--tags | --no-tags] [--"
+"git remote add [-t <branch>] [-m <main>] [-f] [--tags | --no-tags] [--"
 "mirror=<fetch|push>] <name> <url>"
 msgstr ""
-"git remote add [-t <Branch>] [-m <master>] [-f] [--tags | --no-tags] [--"
+"git remote add [-t <Branch>] [-m <main>] [-f] [--tags | --no-tags] [--"
 "mirror=<fetch|push>] <Name> <URL>"
 
 #: builtin/remote.c:19 builtin/remote.c:39
@@ -19530,7 +19530,7 @@ msgid "branch(es) to track"
 msgstr "Branch(es) zur Übernahme"
 
 #: builtin/remote.c:172
-msgid "master branch"
+msgid "main branch"
 msgstr "Hauptbranch"
 
 #: builtin/remote.c:174
@@ -19540,7 +19540,7 @@ msgstr ""
 "\"fetch\""
 
 #: builtin/remote.c:186
-msgid "specifying a master branch makes no sense with --mirror"
+msgid "specifying a main branch makes no sense with --mirror"
 msgstr ""
 "Die Option --mirror kann nicht mit der Angabe eines Hauptbranches verwendet "
 "werden."
@@ -19563,7 +19563,7 @@ msgstr "'%s' ist kein gültiger Name für ein Remote-Repository"
 
 #: builtin/remote.c:239
 #, c-format
-msgid "Could not setup master '%s'"
+msgid "Could not setup main '%s'"
 msgstr "Konnte symbolische Referenz für Hauptbranch von '%s' nicht einrichten"
 
 #: builtin/remote.c:354

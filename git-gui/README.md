@@ -60,10 +60,10 @@ Git: `git-send-email` and `git-format-patch`.
 
 You can use `git-format-patch` to generate patches in mbox format from your
 commits that can then be sent via email. Let's say you are working on a branch
-called 'foo' that was created on top of 'master'. You can run:
+called 'foo' that was created on top of 'main'. You can run:
 
 ```
-git format-patch -o output_dir master..foo
+git format-patch -o output_dir main..foo
 ```
 
 to convert all the extra commits in 'foo' into a set of patches saved in the
@@ -124,18 +124,18 @@ git remote add gitgitgadget https://github.com/gitgitgadget/git
 Then fetch the git-gui branch:
 
 ```
-git fetch gitgitgadget git-gui/master
+git fetch gitgitgadget git-gui/main
 ```
 
-Then create a new branch based on git-gui/master:
+Then create a new branch based on git-gui/main:
 
 ```
-git checkout -b <your-branch-name> git-gui/master
+git checkout -b <your-branch-name> git-gui/main
 ```
 
 Make whatever commits you need to, push them to your fork, and then head over
 to https://github.com/gitgitgadget/git/pulls and open a Pull Request targeting
-git-gui/master.
+git-gui/main.
 
 GitGitGadget will welcome you with a (hopefully) helpful message.
 
