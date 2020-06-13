@@ -465,6 +465,7 @@ test_expect_success MINGW 'redirect std handles' '
 '
 
 test_expect_success '--main-branch' '
+	GIT_TEST_DEFAULT_MAIN_BRANCH_NAME= \
 	git init --main-branch=hello main-branch-option &&
 	git -C main-branch-option symbolic-ref HEAD >actual &&
 	echo refs/heads/hello >expect &&
@@ -481,7 +482,7 @@ test_expect_success '--main-branch' '
 
 test_expect_success 'overridden default main branch name (config)' '
 	test_config_global init.defaultBranch nmb &&
-	git init main-branch-config &&
+	GIT_TEST_DEFAULT_MAIN_BRANCH_NAME= git init main-branch-config &&
 	git -C main-branch-config symbolic-ref HEAD >actual &&
 	grep nmb actual &&
 	git -C main-branch-config config core.mainBranch >actual &&
@@ -489,9 +490,19 @@ test_expect_success 'overridden default main branch name (config)' '
 	test_cmp expect actual
 '
 
+test_expect_success 'overridden default main branch name (env)' '
+	test_config_global init.defaultBranch nmb &&
+	GIT_TEST_DEFAULT_MAIN_BRANCH_NAME=env git init main-branch-env &&
+	git -C main-branch-env symbolic-ref HEAD >actual &&
+	grep env actual &&
+	git -C main-branch-env config core.mainBranch >actual &&
+	echo env >expect &&
+	test_cmp expect actual
+'
+
 test_expect_success 'invalid default branch name' '
-	test_config_global init.defaultBranch "with space" &&
-	test_must_fail git init main-branch-invalid 2>err &&
+	test_must_fail env GIT_TEST_DEFAULT_MAIN_BRANCH_NAME="with space" \
+		git init main-branch-invalid 2>err &&
 	test_i18ngrep "invalid branch name" err
 '
 

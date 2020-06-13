@@ -85,6 +85,7 @@ test_expect_success REMOTE_SVN 'incremental imports must lead to the same head' 
 '
 
 test_expect_success REMOTE_SVN 'respects configured default main branch' '
+	GIT_TEST_DEFAULT_MAIN_BRANCH_NAME= \
 	git -c init.defaultBranch=trunk remote add -f trunk \
 		"testsvn::file://$TEST_DIRECTORY/t9154/svn.dump" &&
 	git rev-parse --verify refs/remotes/trunk/trunk

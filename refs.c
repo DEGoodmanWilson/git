@@ -571,7 +571,14 @@ char *repo_main_branch_name(struct repository *r, int flags)
 	const char *fall_back = "master";
 	char *name = NULL, *ret;
 
-	if (repo_config_get_string(r, config_key, &name) < 0)
+	if (for_init) {
+		const char *env = getenv("GIT_TEST_DEFAULT_MAIN_BRANCH_NAME");
+
+		if (env && *env)
+			name = xstrdup(env);
+	}
+
+	if (!name && repo_config_get_string(r, config_key, &name) < 0)
 		die(_("could not retrieve `%s`"), config_display_key);
 
 	if (full_name)
