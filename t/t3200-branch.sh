@@ -467,6 +467,15 @@ EOF
 	test_cmp expect actual
 '
 
+test_expect_success 'renaming the main branch modifies core.mainBranch' '
+	git init rename-main &&
+	test_commit -C rename-main initial &&
+	git -C rename-main branch -m trunk &&
+	git -C rename-main config core.mainBranch >actual &&
+	echo trunk >expect &&
+	test_cmp expect actual
+'
+
 test_expect_success 'git branch -c dumps usage' '
 	test_expect_code 128 git branch -c 2>err &&
 	test_i18ngrep "branch name required" err
